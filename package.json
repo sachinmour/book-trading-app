@@ -1,0 +1,62 @@
+{
+  "name": "book-trading-app",
+  "version": "1.0.0",
+  "description": "Manage a Book Trading Club",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sachinmour/book-trading-app.git"
+  },
+  "keywords": [
+    "booktrading",
+    "freecodecamp"
+  ],
+  "author": "Sachin Mour",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sachinmour/book-trading-app/issues"
+  },
+  "homepage": "https://github.com/sachinmour/book-trading-app#readme",
+  "dependencies": {
+    "axios": "^0.11.1",
+    "babel": "^6.5.2",
+    "babel-core": "^6.9.0",
+    "babel-loader": "*",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "*",
+    "body-parser": "^1.15.1",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.2",
+    "dotenv": "*",
+    "express": "*",
+    "express-session": "^1.13.0",
+    "mongoose": "^4.4.19",
+    "passport": "^0.3.2",
+    "passport-twitter": "^1.0.4",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-router": "^2.4.1",
+    "webpack": "^1.13.1"
+  },
+  "devDependencies": {
+    "webpack-dev-middleware": "*",
+    "webpack-dev-server": "*",
+    "webpack-hot-middleware": "*",
+    "morgan": "^1.7.0",
+    "babel-cli": "^6.9.0",
+    "babel-preset-react-hmre": "*",
+    "css-loader": "*",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "node-sass": "*",
+    "react-hot-loader": "^1.3.0",
+    "sass-loader": "*",
+    "style-loader": "*"
+  },
+  "engines": {
+    "node": "4.2.4"
+  }
+}
