@@ -1,6 +1,7 @@
 import React from "react";
 import Footer from "./Footer";
-import StockList from "./StockList";
+import Header from "./Header";
+import WelcomeBody from "./WelcomeBody";
 
 class Main extends React.Component{
   
@@ -10,9 +11,11 @@ class Main extends React.Component{
 
   render() {
     return (
-      <div id="content">
-        
-      </div>
+   		<div>
+			<Header />
+			<WelcomeBody />
+			<Footer />
+      	</div>
     );
   }
   
