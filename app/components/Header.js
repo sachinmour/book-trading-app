@@ -27,8 +27,8 @@ class Header extends React.Component{
     if (this.state.user.displayName) {
       links =  <div><a href="/all">All Books</a>
                 <a href="/my">My Books</a>
-                <a href="/setting"><i class="fa fa-cog" aria-hidden="true"></i></a>
-                <a href="/logout"><i class="fa fa-power-off" aria-hidden="true"></i></a></div>;
+                <a href="/setting"><i className="fa fa-cog" aria-hidden="true"></i></a>
+                <a href="/logout"><i className="fa fa-power-off" aria-hidden="true"></i></a></div>;
     } else {
       links = <a href="/auth/twitter">Login</a>;
     }

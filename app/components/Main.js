@@ -13,7 +13,7 @@ class Main extends React.Component{
     return (
    		<div>
 			<Header />
-			<WelcomeBody />
+			{this.props.children}
 			<Footer />
       	</div>
     );
