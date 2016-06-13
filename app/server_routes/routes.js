@@ -1,4 +1,5 @@
 var serverRender = require("../utils/serverRendering");
+var bookSearch = require("../utils/bookSearch");
 var path = require('path');
 
 module.exports = function(app, passport) {
@@ -18,6 +19,10 @@ module.exports = function(app, passport) {
             successRedirect: '/',
             failureRedirect: '/'
         }));
+
+    app.get('/bookSearch', LoggedInAjax, function(req, res) {
+        bookSearch(req.query.query, req.query.title, req.query.author, req, res);
+    });
 
     app.get('/*', function(req, res) {
         // serverRender.handleRender(req, res);
