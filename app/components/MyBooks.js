@@ -14,6 +14,16 @@ class MyBooks extends React.Component {
         }
     }
 
+    componentWillMount() {
+        var _this = this;
+        axios.get('/getmybooks')
+            .then(function(response) {
+                _this.setState({
+                    books: response.data.books
+                });
+            });
+    }
+
     bookIsDuplicate(book) {
         var length = this.state.books.length;
         for (var i = 0; i < length; i++) {
@@ -40,13 +50,9 @@ class MyBooks extends React.Component {
                 })
                 .then(function(response) {
                     if (!response.data.redirect && response.data._id) {
-                        var book = { _id: response.data._id, image: response.data.image, user: response.data.user }
-                        var data = _this.state.books;
-                        console.log(data);
-                        if (!_this.bookIsDuplicate(book)) {
-                            data.push(book);
+                        if (!_this.bookIsDuplicate(response.data)) {
                             _this.setState({
-                                books: data
+                                books: [..._this.state.books, response.data]
                             });
                         }
                     } else if (response.data.error) {
@@ -64,30 +70,53 @@ class MyBooks extends React.Component {
         this.setState(nextState);
     }
 
-    render() {
+    handleDelete(e) {
+        var _this = this;
 
+        var removeBook = this.state.books.filter(function(book) {
+            return book.image === e.target.previousSibling.src;
+        });
+
+        if (removeBook[0] && removeBook[0]._id) {
+            _this.setState({
+                books: _this.state.books.filter(function(book) {
+                    return book._id !== removeBook[0]._id;
+                })
+            });
+            axios.post('/deleteBook', removeBook[0])
+                .then(function(response) {});
+        }
+    }
+
+    render() {
+        var _this = this;
         var bookHtml = this.state.books.map(function(book) {
-            return <img src={book.image} key={book._id}/>;
+            return <div className="mybook" key={book._id}>
+            			<img src={book.image}/>
+            			<p className="close" onClick={(e) => _this.handleDelete(e)}>x</p>
+            		</div>;
         });
 
         return (
             <div>
-            <form onSubmit={(e) => this.handleSubmit(e)}>
-				<div className="input">
-					<input type="text" placeholder="Query" value={this.state.query} onChange={(e) => this.handleChange(e)}/>
+	            <form onSubmit={(e) => this.handleSubmit(e)}>
+					<div className="input">
+						<input type="text" placeholder="Query" value={this.state.query} onChange={(e) => this.handleChange(e)}/>
+					</div>
+					<div className="input">
+						<input type="text" placeholder="Title" value={this.state.title} onChange={(e) => this.handleChange(e)}/>
+					</div>
+					<div className="input">
+						<input type="text" placeholder="Author" value={this.state.author} onChange={(e) => this.handleChange(e)}/>
+					</div>
+					<div id="search">
+						<button type='submit'>Add</button>
+					</div>
+				</form>
+				<p id="error">{ this.state.error }</p>
+				<div id="mybooks">
+					{bookHtml}
 				</div>
-				<div className="input">
-					<input type="text" placeholder="Title" value={this.state.title} onChange={(e) => this.handleChange(e)}/>
-				</div>
-				<div className="input">
-					<input type="text" placeholder="Author" value={this.state.author} onChange={(e) => this.handleChange(e)}/>
-				</div>
-				<div id="search">
-					<button type='submit'>Add</button>
-				</div>
-			</form>
-			<p id="error">{ this.state.error }</p>
-			{bookHtml}
 			</div>
         );
     }

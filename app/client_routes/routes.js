@@ -7,6 +7,6 @@ import { Route, IndexRoute } from 'react-router';
 export default (
     <Route path='/' component={Main}>
   	<IndexRoute component={WelcomeBody} />
-  	<Route path="all" component={MyBooks} />
+  	<Route path="my" component={MyBooks} />
   </Route>
 );

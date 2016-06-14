@@ -1,5 +1,5 @@
 var serverRender = require("../utils/serverRendering");
-var bookSearch = require("../utils/bookSearch");
+var bookHandler = require("../utils/bookHandler");
 var path = require('path');
 
 module.exports = function(app, passport) {
@@ -21,8 +21,25 @@ module.exports = function(app, passport) {
         }));
 
     app.get('/bookSearch', LoggedInAjax, function(req, res) {
-        bookSearch(req.query.query, req.query.title, req.query.author, req, res);
+        bookHandler.search(req.query.query, req.query.title, req.query.author, req, res);
     });
+
+    app.post('/deleteBook', LoggedInAjax, function(req, res) {
+        bookHandler.delete(req, res);
+    });
+
+    app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
+
+    app.get('/getmybooks', LoggedInAjax, function(req, res) {
+        bookHandler.getMyBooks(req, res);
+    });
+
+    app.get('/getallbooks', LoggedInAjax, function(req, res) {
+        bookHandler.getAllBooks(req, res);
+    })
 
     app.get('/*', function(req, res) {
         // serverRender.handleRender(req, res);
