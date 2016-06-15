@@ -6,127 +6,140 @@ $last: #FFFAE4;
 $tablet-width: 768px;
 $desktop-width: 1024px;
 $share-width: 990px;
-
 @mixin tablet {
-  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
-    @content;
-  }
+    @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+        @content;
+    }
 }
 
 @mixin desktop {
-  @media (min-width: #{$desktop-width}) {
-    @content;
-  }
+    @media (min-width: #{$desktop-width}) {
+        @content;
+    }
 }
 
 @mixin mobile {
-  @media (max-width: 768px) {
-    @content;
-  }
+    @media (max-width: 768px) {
+        @content;
+    }
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  background-color: $last;
+    margin: 0;
+    padding: 0;
+    background-color: $last;
 }
 
 div#app {
-  width: 100%;
-  min-height: 100vh;
-  color: black;
-  margin: 0;
+    width: 100%;
+    min-height: 100vh;
+    color: black;
+    margin: 0;
 }
 
 div#top {
-  background-color: $slast;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-
-  div#header {
     background-color: $slast;
-    width: 100%;
-    height: 60px;
-    max-width: 1024px;
-    padding: 0px 20px;
-    justify-content: space-between;
-    display: flex;
-
-    div {
-      height: 100%;
-      display: flex;
-      align-items: center;
-    }
-
-    a {
-      color: $last;
-      font-size: 1.2rem;
-      text-decoration: none;
-      height: 100%;
-      padding: 0px 10px;
-      display: flex;
-      align-items: center;
-    }
-
-    div#authenticated {
-      display: flex;
-    }
-  }
-}
-
-div#body_home {
-  background-color: $first;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  div {
-    max-width: 1024px;
     width: 100%;
     display: flex;
     justify-content: center;
+    div#header {
+        background-color: $slast;
+        width: 100%;
+        height: 60px;
+        max-width: 1024px;
+        padding: 0px 20px;
+        justify-content: space-between;
+        display: flex;
+        div {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        a {
+            color: $last;
+            font-size: 1.2rem;
+            text-decoration: none;
+            height: 100%;
+            padding: 0px 10px;
+            display: flex;
+            align-items: center;
+        }
+        div#authenticated {
+            display: flex;
+        }
+    }
+}
+
+div#body_home {
+    background-color: $first;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-
-    img {
-      width: 100%;
+    justify-content: center;
+    div {
+        max-width: 1024px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+            width: 100%;
+        }
+        p {
+            font-size: 3rem;
+            @include tablet {
+                font-size: 2.5rem;
+            }
+            @include mobile {
+                font-size: 1.8rem;
+            }
+        }
     }
-
-    p {
-      font-size: 3rem;
-
-      @include tablet {
-        font-size: 2.5rem;
-      }
-
-
-      @include mobile {
-        font-size: 1.8rem;
-      }
-    }
-  }
 }
 
 div#contact {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
-
-  a {
-    text-decoration: none;
-    color: $slast;
-  }
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    a {
+        text-decoration: none;
+        color: $slast;
+    }
 }
 
-// div#content {
-//     font-family: 'Open Sans', sans-serif;
-//     margin: auto;
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-// }
+div.book {
+    display: inline-block;
+    margin-right: auto;
+    position: relative;
+    img {
+        pointer-events: none;
+    }
+    &:hover {
+        img {
+            filter: blur(2px);
+            -webkit-filter: blur(2px);
+        }
+        div.exchange {
+            i {
+                opacity: 1;
+            }
+        }
+    }
+    div.exchange {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        cursor: pointer;
+        i {
+            font-size: 2rem;
+            opacity: 0.2;
+        }
+    }
+}

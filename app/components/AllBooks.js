@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Book from "./Book";
 
 class AllBooks extends React.Component {
 
@@ -26,16 +27,7 @@ class AllBooks extends React.Component {
 
         var _this = this;
         var bookHtml = _this.state.books.map(function(book) {
-
-            var trade;
-            if (book.user !== _this.state.user_id && book.traded === false) {
-                trade = <p className="close" onClick={(e) => _this.handleDelete(e)}>x</p>
-            }
-
-            return <div className="book" key={book._id}>
-                  <img src={book.image}/>
-                  {trade}
-                </div>;
+            return <Book key={book._id} book={book} user_id={_this.state.user_id}/>
         });
 
         return (
