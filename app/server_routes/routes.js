@@ -1,5 +1,6 @@
 var serverRender = require("../utils/serverRendering");
 var bookHandler = require("../utils/bookHandler");
+var requestHandler = require("../utils/requestHandler");
 var path = require('path');
 
 module.exports = function(app, passport) {
@@ -39,6 +40,18 @@ module.exports = function(app, passport) {
 
     app.get('/getallbooks', LoggedInAjax, function(req, res) {
         bookHandler.getAllBooks(req, res);
+    });
+
+    app.get(['/all', '/my', '/settings'], isLoggedIn, function(req, res) {
+        res.sendFile(path.join(__dirname, '../../public/index2.html'));
+    });
+
+    app.post('/newRequest', LoggedInAjax, function(req, res) {
+        requestHandler.newRequest(req, res);
+    });
+
+    app.get('/getRequests', LoggedInAjax, function(req, res) {
+        requestHandler.getRequests(req, res);
     })
 
     app.get('/*', function(req, res) {

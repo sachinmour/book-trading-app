@@ -1,34 +1,25 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router'
+import Requests from './Requests';
 
 class Header extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            user: {}
-        }
-    }
-
-    componentWillMount() {
-        var _this = this;
-        axios.get('/getUser')
-            .then(function(response) {
-                if (!response.data.redirect) {
-                    _this.setState({ user: response.data });
-                }
-            });
     }
 
     render() {
 
         var links;
 
-        if (this.state.user.displayName) {
-            links = <div><a href="/all">All Books</a>
-                <a href="/my">My Books</a>
-                <a href="/setting"><i className="fa fa-cog" aria-hidden="true"></i></a>
-                <a href="/logout"><i className="fa fa-power-off" aria-hidden="true"></i></a></div>;
+        if (this.props.user.displayName) {
+            links = <div>
+                        <Link to="/all">All Books</Link>
+                        <Link to="/my">My Books</Link>
+                        <Link to="/settings"><i className="fa fa-cog" aria-hidden="true"></i></Link>
+                        <a href="/logout"><i className="fa fa-power-off" aria-hidden="true"></i></a>
+                    </div>;
         } else {
             links = <a href="/auth/twitter">Login</a>;
         }
@@ -37,7 +28,7 @@ class Header extends React.Component {
             <div id="top">
                 <div id="header">
                     <div id="name">
-                        <a href="/">booktrade</a>
+                        <Link to="/">booktrade</Link>
                     </div>
                     <div id="authenticated">
                         {links}

@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import Book from "./Book";
 
 class AllBooks extends React.Component {
 
@@ -23,11 +22,54 @@ class AllBooks extends React.Component {
             });
     }
 
+    requestBook(book) {
+        var _this = this;
+        var booksNew = this.state.books;
+        for (var b of booksNew) {
+            if (b._id === book._id) {
+                b.requested = true;
+                console.log(b);
+                break;
+            }
+        }
+        console.log(booksNew);
+        this.setState({
+            books: booksNew
+        });
+        axios.post('/newRequest', { book_id: book._id })
+            .then(function(response) {
+                if (!response.data.requestMade) {
+                    for (var b of booksNew) {
+                        if (b._id === book._id) {
+                            b[requested] = false;
+                            break;
+                        }
+                    }
+                    this.setState({
+                        books: booksNew
+                    });
+                }
+            })
+            .catch(function(response) {
+                console.log(response.data);
+            });
+    }
+
     render() {
 
         var _this = this;
         var bookHtml = _this.state.books.map(function(book) {
-            return <Book key={book._id} book={book} user_id={_this.state.user_id}/>
+            var trade;
+            if (book.user !== _this.state.user_id && book.requested === false) {
+                trade = <div className="exchange" onClick={(e) => _this.requestBook(book)}><i className="fa fa-exchange" aria-hidden="true"></i></div>
+            }
+
+            return (
+                <div className="book" key={book._id}>
+                    <img src={book.image} />
+                    {trade}
+                </div>
+            );
         });
 
         return (

@@ -1,22 +1,20 @@
 import React from "react";
 import axios from "axios";
 
-class AllBooks extends React.Component {
+class Setting extends React.Component {
 
     constructor(props, context) {
         super(props, context);
         this.state = {
-            city: this.props.user.city,
-            state: this.props.user.state
+            city: props.user.city,
+            state: props.user.state
         }
     }
 
     handleSubmit(e) {
         e.preventDefault();
         axios.post('/setting', this.state)
-            .then(fucntion(response) {
-
-            });
+            .then(function(response) {});
     }
 
     handleChange(e) {
