@@ -18,6 +18,7 @@ class Header extends React.Component {
                         <Link to="/all">All Books</Link>
                         <Link to="/my">My Books</Link>
                         <Link to="/settings"><i className="fa fa-cog" aria-hidden="true"></i></Link>
+                        <Link to="/notifications"><i className="fa fa-envelope" aria-hidden="true"></i></Link>
                         <a href="/logout"><i className="fa fa-power-off" aria-hidden="true"></i></a>
                     </div>;
         } else {

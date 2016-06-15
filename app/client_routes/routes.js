@@ -3,6 +3,7 @@ import WelcomeBody from "../components/WelcomeBody"
 import MyBooks from "../components/MyBooks"
 import AllBooks from "../components/AllBooks"
 import Setting from "../components/Setting"
+import Requests from "../components/Requests"
 import React from "react";
 import { Route, IndexRoute } from 'react-router';
 
@@ -12,5 +13,6 @@ export default (
 	  	<Route path="my" component={MyBooks} />
 	  	<Route path="all" component={AllBooks} />
 	  	<Route path="settings" component={Setting} />
+	  	<Route path="notifications" component={Requests} />
   	</Route>
 );

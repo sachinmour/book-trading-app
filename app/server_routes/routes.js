@@ -42,7 +42,7 @@ module.exports = function(app, passport) {
         bookHandler.getAllBooks(req, res);
     });
 
-    app.get(['/all', '/my', '/settings'], isLoggedIn, function(req, res) {
+    app.get(['/all', '/my', '/settings', '/notifications'], isLoggedIn, function(req, res) {
         res.sendFile(path.join(__dirname, '../../public/index2.html'));
     });
 
@@ -52,7 +52,19 @@ module.exports = function(app, passport) {
 
     app.get('/getRequests', LoggedInAjax, function(req, res) {
         requestHandler.getRequests(req, res);
-    })
+    });
+
+    app.post('/cancelRequest', LoggedInAjax, function(req, res) {
+        requestHandler.cancelRequest(req, res);
+    });
+
+    app.post('/rejectApproval', LoggedInAjax, function(req, res) {
+        requestHandler.rejectApproval(req, res);
+    });
+
+    app.post('/acceptApproval', LoggedInAjax, function(req, res) {
+        requestHandler.acceptApproval(req, res);
+    });
 
     app.get('/*', function(req, res) {
         // serverRender.handleRender(req, res);

@@ -29,7 +29,65 @@ class Requests extends React.Component {
             });
     }
 
+    cancelRequest(request) {
+
+        var _this = this;
+
+        var oldRequests = this.state.requestsMade;
+        var newRequests = oldRequests.filter(function(oldRequest) {
+            return oldRequest._id !== request._id;
+        })
+
+        this.setState({
+            requestsMade: newRequests
+        });
+
+        axios.post('/cancelRequest', { request_id: request._id })
+            .then(function(response) {
+                if (!response.data.requestCancelled) {
+                    _this.setState({
+                        requestsMade: oldRequests
+                    })
+                }
+            })
+            .catch(function(response) {
+                console.log(response.data);
+            });
+    }
+
+    rejectApproval(request) {
+
+        var _this = this;
+
+        var oldRequests = this.state.needApproval;
+        var newRequests = oldRequests.filter(function(oldRequest) {
+            return oldRequest._id !== request._id;
+        })
+
+        this.setState({
+            needApproval: newRequests
+        });
+
+        axios.post('/rejectApproval', { request_id: request._id })
+            .then(function(response) {
+                if (!response.data.approvalRejected) {
+                    _this.setState({
+                        needApproval: oldRequests
+                    })
+                }
+            })
+            .catch(function(response) {
+                console.log(response.data);
+            });
+
+    }
+
+    acceptApproval(request) {
+
+    }
+
     render() {
+        var _this = this;
 
         var requestsMadeHTML = this.state.requestsMade.map(function(request) {
             return <div className="request" key={request._id}>

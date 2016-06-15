@@ -28,11 +28,9 @@ class AllBooks extends React.Component {
         for (var b of booksNew) {
             if (b._id === book._id) {
                 b.requested = true;
-                console.log(b);
                 break;
             }
         }
-        console.log(booksNew);
         this.setState({
             books: booksNew
         });
@@ -45,7 +43,7 @@ class AllBooks extends React.Component {
                             break;
                         }
                     }
-                    this.setState({
+                    _this.setState({
                         books: booksNew
                     });
                 }

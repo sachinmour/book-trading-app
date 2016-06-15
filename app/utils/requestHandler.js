@@ -25,23 +25,64 @@ module.exports = {
         });
     },
 
-    approveRequest(req, res) {
+    acceptApproval(req, res) {
         var request_id = req.body.request_id;
         Request.findOne({ _id: request_id }, function(err, request) {
             if (err) throw err;
             if (request.to.equals(req.user._id)) {
                 request.approved = true;
                 request.save();
-                res.json({ requestApproved: true });
+                res.json({ approvalAccepted: true });
+            } else {
+                res.json({ approvalAccepted: false });
             }
         });
     },
 
     getRequests(req, res) {
-        Request.find({ $or: [{ from: req.user._id }, { to: req.user._id }] }).populate('book', 'image').exec(function(err, requests) {
+        var user_id = req.user._id
+        Request.find({ $or: [{ from: user_id }, { to: user_id }] }).populate('book', 'image').exec(function(err, requests) {
             if (err) throw err;
             if (requests.length) {
                 res.json({ requests: requests });
+            } else {
+                res.json({ requests: [] });
+            }
+        });
+    },
+
+    cancelRequest(req, res) {
+        var request_id = req.body.request_id;
+        Request.findOne({ _id: request_id }, function(err, request) {
+            if (err) throw err;
+            if (request.from.equals(req.user._id)) {
+                Book.findOne({ _id: request.book }, function(err, book) {
+                    if (err) throw err;
+                    book.requested = false;
+                    book.save();
+                    request.remove();
+                    res.json({ requestCancelled: true });
+                })
+            } else {
+                res.json({ requestCancelled: false });
+            }
+        });
+    },
+
+    rejectApproval(req, res) {
+        var request_id = req.body.request_id;
+        Request.findOne({ _id: request_id }, function(err, request) {
+            if (err) throw err;
+            if (request.to.equals(req.user._id)) {
+                Book.findOne({ _id: request.book }, function(err, book) {
+                    if (err) throw err;
+                    book.requested = false;
+                    book.save();
+                    request.remove();
+                    res.json({ approvalRejected: true });
+                })
+            } else {
+                res.json({ approvalRejected: false });
             }
         });
     }

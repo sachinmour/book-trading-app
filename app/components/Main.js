@@ -1,7 +1,6 @@
 import React from "react";
 import Footer from "./Footer";
 import Header from "./Header";
-import Requests from "./Requests"
 import axios from "axios";
 
 class Main extends React.Component {
@@ -38,7 +37,6 @@ class Main extends React.Component {
         return (
             <div>
                 <Header user={_this.state.user}/>
-                <Requests user={_this.state.user}/>
                 {_this.renderChildren()}
                 <Footer />
             </div>
