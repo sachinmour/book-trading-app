@@ -66,6 +66,10 @@ module.exports = function(app, passport) {
         requestHandler.acceptApproval(req, res);
     });
 
+    app.post('/deleteRequest', LoggedInAjax, function(req, res) {
+        requestHandler.deleteRequest(req, res);
+    })
+
     app.get('/*', function(req, res) {
         // serverRender.handleRender(req, res);
         res.sendFile(path.join(__dirname, '../../public/index2.html'));

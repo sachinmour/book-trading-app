@@ -1,6 +1,7 @@
 import axios from "axios";
 import Book from "../models/books.js";
 import User from "../models/users.js";
+import Request from "../models/requests.js";
 
 module.exports = {
 
@@ -37,10 +38,13 @@ module.exports = {
             })) {
             req.user.books.remove(book._id);
             req.user.save();
-            Book.remove({ _id: book._id }, function(err, book) {
-                if (err) console.log(err);
-                res.json({ message: 'book removed' });
-            });
+            Request.remove({ book: book._id }, function(err, requests) {
+                if (err) throw err;
+                Book.remove({ _id: book._id }, function(err, book) {
+                    if (err) console.log(err);
+                    res.json({ message: 'book removed' });
+                });
+            })
         }
     },
 

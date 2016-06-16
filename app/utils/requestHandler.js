@@ -85,6 +85,24 @@ module.exports = {
                 res.json({ approvalRejected: false });
             }
         });
+    },
+
+    deleteRequest(req, res) {
+        var request_id = req.body.request_id;
+        Request.findOne({ _id: request_id }, function(err, request) {
+            if (err) throw err;
+            if (request.from.equals(req.user._id) || request.to.equals(req.user._id)) {
+                Book.findOne({ _id: request.book }, function(err, book) {
+                    if (err) throw err;
+                    book.requested = false;
+                    book.save();
+                    request.remove();
+                    res.json({ requestDeleted: true });
+                })
+            } else {
+                res.json({ requestDeleted: false });
+            }
+        });
     }
 
 }

@@ -7,7 +7,9 @@ class Requests extends React.Component {
         super(props, context);
         this.state = {
             requestsMade: [],
-            needApproval: []
+            needApproval: [],
+            requestsMadeApproved: [],
+            needApprovalApproved: []
         }
     }
 
@@ -17,12 +19,24 @@ class Requests extends React.Component {
             .then(function(response) {
                 var requests = response.data.requests;
                 if (requests) {
+                    var made = requests.filter(function(request) {
+                        return request.from === _this.props.user._id
+                    });
+                    var approval = requests.filter(function(request) {
+                        return request.to === _this.props.user._id
+                    });
                     _this.setState({
-                        requestsMade: requests.filter(function(request) {
-                            return request.from === _this.props.user._id
+                        requestsMade: made.filter(function(request) {
+                            return !request.approved
                         }),
-                        needApproval: requests.filter(function(request) {
-                            return request.to === _this.props.user._id
+                        requestsMadeApproved: made.filter(function(request) {
+                            return request.approved === true
+                        }),
+                        needApproval: approval.filter(function(request) {
+                            return !request.approved
+                        }),
+                        needApprovalApproved: approval.filter(function(request) {
+                            return request.approved === true
                         })
                     });
                 }
@@ -83,13 +97,56 @@ class Requests extends React.Component {
     }
 
     acceptApproval(request) {
+        var _this = this;
 
+        var oldRequests = this.state.needApproval;
+        var newRequests = oldRequests.filter(function(oldRequest) {
+            return oldRequest._id !== request._id;
+        })
+        this.setState({
+            needApproval: newRequests
+        });
+        axios.post('/acceptApproval', { request_id: request._id })
+            .then(function(response) {
+                if (!response.data.approvalAccepted) {
+                    _this.setState({
+                        needApproval: oldRequests
+                    });
+                }
+            })
+            .catch(function(response) {
+                console.log(response.data);
+            });
+    }
+
+    deleteRequest(request, identifier) {
+        var _this = this;
+
+        var oldRequests = this.state[identifier];
+        var newRequests = oldRequests.filter(function(oldRequest) {
+            return oldRequest._id !== request._id;
+        });
+
+        var newState = {};
+        newState[identifier] = newRequests;
+        this.setState(newState);
+
+        axios.post('/deleteRequest', { request_id: request._id })
+            .then(function(response) {
+                if (!response.data.requestDeleted) {
+                    newState[identifier] = oldRequests;
+                    _this.setState(newState);
+                }
+            })
+            .catch(function(response) {
+                console.log(response.data);
+            });
     }
 
     render() {
         var _this = this;
 
-        var requestsMadeHTML = this.state.requestsMade.map(function(request) {
+        var requestsMade = this.state.requestsMade.map(function(request) {
             return <div className="request" key={request._id}>
                         <img src={request.book.image}/>
                         <div className="decision">
@@ -98,7 +155,15 @@ class Requests extends React.Component {
                     </div>;
         });
 
-        var needApprovalHTML = this.state.needApproval.map(function(request) {
+        var requestsMadeHTML;
+        if (requestsMade.length) {
+            requestsMadeHTML = <div><h2>Requests Made</h2>
+                <div id="made" className="requests">
+                    {requestsMade}
+                </div></div>;
+        }
+
+        var needApproval = this.state.needApproval.map(function(request) {
             return <div className="request" key={request._id}>
                         <img src={request.book.image} />
                         <div className="decision">
@@ -108,16 +173,54 @@ class Requests extends React.Component {
                     </div>;
         });
 
+        var needApprovalHTML;
+        if (needApproval.length) {
+            needApprovalHTML = <div><h2>Requests from other users</h2>
+                <div id="waiting" className="requests">
+                    {needApproval}
+                </div></div>;
+        }
+
+        var requestsMadeApproved = this.state.requestsMadeApproved.map(function(request) {
+            return <div className="request" key={request._id}>
+                        <img src={request.book.image}/>
+                        <div className="decision">
+                            <i className="fa fa-times" onClick={() => _this.deleteRequest(request, "requestsMadeApproved")} aria-hidden="true"></i>
+                        </div>
+                    </div>;
+        });
+
+        var requestsMadeApprovedHTML;
+        if (requestsMadeApproved.length) {
+            requestsMadeApprovedHTML = <div><h2>Your trade request was approved</h2>
+                <div id="approved" className="requests">
+                    {requestsMadeApproved}
+                </div></div>;
+        }
+
+        var needApprovalApproved = this.state.needApprovalApproved.map(function(request) {
+            return <div className="request" key={request._id}>
+                        <img src={request.book.image}/>
+                        <div className="decision">
+                            <i className="fa fa-times" onClick={() => _this.deleteRequest(request, "needApprovalApproved")} aria-hidden="true"></i>
+                        </div>
+                    </div>;
+        });
+
+        var needApprovalApprovedHTML;
+        if (needApprovalApproved.length) {
+            needApprovalApprovedHTML = <div><h2>You approved these trade requests</h2>
+                <div id="approved" className="requests">
+                    {needApprovalApproved}
+                </div></div>;
+        }
+
         return (
             <div id="requestsContainer">
-                <h2>Requests Made</h2>
-                <div id="made" className="requests">
-                    {requestsMadeHTML}
-                </div>
-                <h2>Requests from other users</h2>
-                <div id="waiting" className="requests">
-                    {needApprovalHTML}
-                </div>
+                {requestsMadeHTML}
+                {needApprovalHTML}
+                {requestsMadeApprovedHTML}
+                {needApprovalApprovedHTML}
             </div>
         )
     }

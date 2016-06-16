@@ -38,7 +38,10 @@ class MyBooks extends React.Component {
         if (e) e.preventDefault();
         var _this = this;
         _this.setState({
-            error: ""
+            error: "",
+            query: "",
+            title: "",
+            author: ""
         });
         if (_this.state.query || _this.state.title || _this.state.author) {
             axios.get('/bookSearch', {
@@ -93,7 +96,7 @@ class MyBooks extends React.Component {
         var bookHtml = this.state.books.map(function(book) {
             return <div className="mybook" key={book._id}>
             			<img src={book.image}/>
-            			<p className="close" onClick={(e) => _this.handleDelete(e)}>x</p>
+                        <i className="fa fa-times" onClick={(e) => _this.handleDelete(e)} aria-hidden="true"></i>
             		</div>;
         });
 
