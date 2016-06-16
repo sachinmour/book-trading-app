@@ -75,8 +75,8 @@ module.exports = function(app, passport) {
     });
 
     app.get('/*', function(req, res) {
-        // serverRender.handleRender(req, res);
-        res.sendFile(path.join(__dirname, '../../public/index2.html'));
+        serverRender.handleRender(req, res);
+        // res.sendFile(path.join(__dirname, '../../public/index2.html'));
     });
 
     // app.post('/removeStock', function(req, res) {

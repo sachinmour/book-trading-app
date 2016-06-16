@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Link } from 'react-router'
-import Requests from './Requests';
+import { Link } from 'react-router';
 
 class Header extends React.Component {
 
