@@ -42,6 +42,10 @@ module.exports = function(app, passport) {
         bookHandler.getAllBooks(req, res);
     });
 
+    app.post('/setting', LoggedInAjax, function(req, res) {
+        bookHandler.updateUser(req, res);
+    });
+
     app.get(['/all', '/my', '/settings', '/notifications'], isLoggedIn, function(req, res) {
         res.sendFile(path.join(__dirname, '../../public/index2.html'));
     });
@@ -68,7 +72,7 @@ module.exports = function(app, passport) {
 
     app.post('/deleteRequest', LoggedInAjax, function(req, res) {
         requestHandler.deleteRequest(req, res);
-    })
+    });
 
     app.get('/*', function(req, res) {
         // serverRender.handleRender(req, res);

@@ -6,15 +6,38 @@ class Setting extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            city: props.user.city,
-            state: props.user.state
+            name: "",
+            city: "",
+            state: ""
         }
+    }
+
+    componentWillMount() {
+        var _this = this;
+        axios.get('/getUser')
+            .then(function(response) {
+                if (!response.data.redirect) {
+                    var user = response.data;
+                    _this.setState({
+                        name: user.displayName,
+                        city: user.city,
+                        state: user.state
+                    });
+                }
+            });
     }
 
     handleSubmit(e) {
         e.preventDefault();
+        var _this = this;
         axios.post('/setting', this.state)
-            .then(function(response) {});
+            .then(function(response) {
+                _this.setState({
+                    name: response.data.user.displayName,
+                    city: response.data.user.city,
+                    state: response.data.user.state
+                });
+            });
     }
 
     handleChange(e) {
@@ -24,19 +47,25 @@ class Setting extends React.Component {
     }
 
     render() {
-
+        var _this = this;
         return (
-            <form onSubmit={(e) => this.handleSubmit(e)}>
-                <div className="input">
-                    <input type="text" placeholder="State" value={this.state.state} onChange={(e) => this.handleChange(e)}/>
-                </div>
-                <div className="input">
-                    <input type="text" placeholder="City" value={this.state.city} onChange={(e) => this.handleChange(e)}/>
-                </div>
-                <div id="search">
-                    <button type='submit'>Save</button>
-                </div>
-            </form>
+            <div id="settings">
+        		<h2>Update Profile</h2>
+	            <form onSubmit={(e) => _this.handleSubmit(e)}>
+	                <div className="input">
+	                    <input type="text" placeholder="Name" value={_this.state.name} onChange={(e) => _this.handleChange(e)}/>
+	                </div>
+	                <div className="input">
+	                    <input type="text" placeholder="City" value={_this.state.city} onChange={(e) => _this.handleChange(e)}/>
+	                </div>
+	                <div className="input">
+	                    <input type="text" placeholder="State" value={_this.state.state} onChange={(e) => _this.handleChange(e)}/>
+	                </div>
+	                <div id="search">
+	                    <button type='submit'>Save</button>
+	                </div>
+	            </form>
+            </div>
         );
     }
 

@@ -37,7 +37,9 @@ class Main extends React.Component {
         return (
             <div>
                 <Header user={_this.state.user}/>
-                {_this.renderChildren()}
+                <div id="content">
+                    {_this.renderChildren()}
+                </div>
                 <Footer />
             </div>
         );

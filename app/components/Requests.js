@@ -157,7 +157,7 @@ class Requests extends React.Component {
 
         var requestsMadeHTML;
         if (requestsMade.length) {
-            requestsMadeHTML = <div><h2>Requests Made</h2>
+            requestsMadeHTML = <div className="requestBox"><h2>Requests Made</h2>
                 <div id="made" className="requests">
                     {requestsMade}
                 </div></div>;
@@ -175,7 +175,7 @@ class Requests extends React.Component {
 
         var needApprovalHTML;
         if (needApproval.length) {
-            needApprovalHTML = <div><h2>Requests from other users</h2>
+            needApprovalHTML = <div className="requestBox"><h2>Requests from other users</h2>
                 <div id="waiting" className="requests">
                     {needApproval}
                 </div></div>;
@@ -192,7 +192,7 @@ class Requests extends React.Component {
 
         var requestsMadeApprovedHTML;
         if (requestsMadeApproved.length) {
-            requestsMadeApprovedHTML = <div><h2>Your trade request was approved</h2>
+            requestsMadeApprovedHTML = <div className="requestBox"><h2>Your trade request was approved</h2>
                 <div id="approved" className="requests">
                     {requestsMadeApproved}
                 </div></div>;
@@ -209,7 +209,7 @@ class Requests extends React.Component {
 
         var needApprovalApprovedHTML;
         if (needApprovalApproved.length) {
-            needApprovalApprovedHTML = <div><h2>You approved these trade requests</h2>
+            needApprovalApprovedHTML = <div className="requestBox"><h2>You approved these trade requests</h2>
                 <div id="approved" className="requests">
                     {needApprovalApproved}
                 </div></div>;

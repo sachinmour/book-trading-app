@@ -58,5 +58,15 @@ module.exports = {
         Book.find({}).exec(function(err, books) {
             res.json({ books: books, user_id: req.user._id });
         });
+    },
+
+    updateUser(req, res) {
+        req.user.displayName = req.body.name;
+        req.user.city = req.body.city;
+        req.user.state = req.body.state;
+        req.user.save(function(err, user) {
+            if (err) throw err;
+            res.json({ user: user });
+        });
     }
 }

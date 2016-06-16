@@ -13,7 +13,7 @@ class Header extends React.Component {
 
         var links;
 
-        if (this.props.user.displayName) {
+        if (this.props.user.username) {
             links = <div>
                         <Link to="/all">All Books</Link>
                         <Link to="/my">My Books</Link>
